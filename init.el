@@ -1,12 +1,33 @@
-(setq inhibit-startup-message t) ; remove startup message 
-(setq visible-bell t)            ; replace bell allert by screen flash
+;; ===================================
+;; MELPA Package Support
+;; ===================================
+;; Enables basic packaging support
+(require 'package)
 
-(menu-bar-mode -1)          ; remove the menu bad
-(tool-bar-mode -1)          ; remove the tool icons
-(scroll-bar-mode -1)        ; remove the scroll bar
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.org/packages/") t)
 
-(global-display-line-numbers-mode 1) ; display number lines
 
-(load-theme 'deeper-blue t)
+;; Initializes the package infrastructure
+(package-initialize)
 
+;; If there are no archived package contents, refresh them
+(unless package-archive-contents (package-refresh-contents))
+(use-package python
+  :ensure t
+  :hook ((python-ts-mode . eglot-ensure))
+  :mode (("\\.py\\'" . python-ts-mode))
+  )
+
+(setq tab-always-indent 'complete)
+(global-company-mode)
+
+;; ===================================
+;; Basic Customization
+;; ===================================
+
+(setq inhibit-startup-message t)    ;; Hide the startup message
+(load-theme 'deeper-blue t)            ;; Load material theme
+
+(require 'auto-complete-config)
 
